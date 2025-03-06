@@ -1,0 +1,39 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+    padding: 0 20px 20px;
+}
+
+.container a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 8px 12px;
+    background: aliceblue;
+    border-radius: 8px;
+}
+
+.container a:hover{
+    background: skyblue;
+}
+
+.container ul{
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    gap: 12px;
+    padding: 0;
+}
+
+.errorContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.errorText {
+    color: red;
+}
