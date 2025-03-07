@@ -1,6 +1,7 @@
 import { memo, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { TrashIcon, PencilIcon } from '@primer/octicons-react';
 import { fetchRepos } from '@store/slices/reposSlice.js';
 import { deleteRepo } from '@utils/reposApi.js';
@@ -20,11 +21,11 @@ export const RepoItem = memo(({ repo }) => {
     if (confirmDelete) {
       try {
         await deleteRepo(login, repo.name);
-        alert(`Репозиторий "${repo.name}" успешно удален!`);
+        toast(`Репозиторий "${repo.name}" успешно удален!`);
 
         dispatch(fetchRepos());
       } catch (error) {
-        alert('Ошибка при удалении репозитория: ' + error.message);
+        toast.error('Ошибка при удалении репозитория: ' + error.message);
       }
     }
   }, [login, repo.name, dispatch]);

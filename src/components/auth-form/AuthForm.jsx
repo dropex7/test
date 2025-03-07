@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { setAuthState } from '@store/slices/authSlice.js';
 import { useGetAuthValues } from '@hooks/useGetAuthValues.js';
 import styles from './AuthForm.module.css';
+import { toast } from 'react-toastify';
 
 export const AuthForm = memo(() => {
   const dispatch = useDispatch();
@@ -25,15 +26,8 @@ export const AuthForm = memo(() => {
   const onSubmit = useCallback(
     (event) => {
       event.preventDefault();
-
-      if (!formValues.login || !formValues.token) {
-        alert('Пожалуйста, заполните все поля');
-        return;
-      }
-
       dispatch(setAuthState(formValues));
-
-      alert(`Данные пользователя сохранены!`);
+      toast(`Данные пользователя сохранены!`);
     },
     [dispatch, formValues]
   );

@@ -1,5 +1,6 @@
 import { memo, useCallback, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { fetchRepos } from '@store/slices/reposSlice.js';
 import { createRepo, updateRepo } from '@utils/reposApi.js';
 import { useGetAuthValues } from '@hooks/useGetAuthValues.js';
@@ -29,7 +30,6 @@ export const RepoForm = memo(({ repo }) => {
 
   const [formValues, setFormValues] = useState(defaultValues);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const handleChange = useCallback((event) => {
     const { name, value } = event.target;
@@ -39,14 +39,7 @@ export const RepoForm = memo(({ repo }) => {
   const onSubmit = useCallback(
     async (event) => {
       event.preventDefault();
-
-      if (!formValues.name) {
-        alert('Пожалуйста, укажите название репозитория');
-        return;
-      }
-
       setLoading(true);
-      setError(null);
 
       try {
         const repoData = {
@@ -56,16 +49,16 @@ export const RepoForm = memo(({ repo }) => {
 
         if (isEdit) {
           await updateRepo(login, repo.name, repoData);
-          alert(`Репозиторий "${formValues.name}" успешно обновлен!`);
+          toast(`Репозиторий "${formValues.name}" успешно обновлен!`);
         } else {
           await createRepo({ ...repoData, name: formValues.name });
-          alert(`Репозиторий "${formValues.name}" успешно создан!`);
+          toast(`Репозиторий "${formValues.name}" успешно создан!`);
           setFormValues({ name: '', description: '', visibility: 'public' });
         }
 
         dispatch(fetchRepos());
       } catch (error) {
-        setError(
+        toast.error(
           error.response?.data?.message || 'Ошибка при сохранении репозитория'
         );
       } finally {
@@ -124,8 +117,6 @@ export const RepoForm = memo(({ repo }) => {
           </label>
         </div>
       </div>
-
-      {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <button type="submit" disabled={loading}>
         {loading
